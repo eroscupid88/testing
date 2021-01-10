@@ -27,7 +27,7 @@ public class ExampleApps {
         final StreamsBuilder builder = new StreamsBuilder();
 
         KStream<String, String> source = builder.stream("src-topic");
-        source.flatMapValues(value -> Arrays.asList(value.toLowerCase(Locale.getDefault()).split("\\W+")))
+        source.flatMapValues(value -> Arrays.asList(value.toLowerCase(Locale.getDefault()).split(" ")))
                 .groupBy((key, value) -> value)
                 .count(Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as("counts-store"))
                 .toStream()
