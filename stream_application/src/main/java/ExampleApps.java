@@ -1,6 +1,6 @@
 
 import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.common.utils.Bytes;
+
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
@@ -8,7 +8,7 @@ import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.kstream.Produced;
-import org.apache.kafka.streams.state.KeyValueStore;
+
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -17,7 +17,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class ExampleApps {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args){
         Properties props = new Properties();
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "streams-wordcount");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
@@ -29,7 +29,7 @@ public class ExampleApps {
         KStream<String, String> source = builder.stream("src-topic");
         source.flatMapValues(value -> Arrays.asList(value.toLowerCase(Locale.getDefault()).split(" ")))
                 .groupBy((key, value) -> value)
-                .count(Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as("counts-store"))
+                .count(Materialized.as("counts-store"))
                 .toStream()
                 .to("out-topic", Produced.with(Serdes.String(), Serdes.Long()));
 
