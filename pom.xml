@@ -12,4 +12,8 @@
         <module>stream_application</module>
     </modules>
 
+    <properties>
+        <kafka-stream.version>2.7.0</kafka-stream.version>
+        <slf4j.version>1.7.30</slf4j.version>
+    </properties>
 </project>
