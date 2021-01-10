@@ -14,6 +14,7 @@ docker run --rm -it -v "$(pwd)":/tutorial --net=host landoop/fast-data-dev bash
 
 kafka-topics --zookeeper 127.0.0.1:2181 --create --topic src-topic --partitions 3 --replication-factor 1
 
- kafka-topics --zookeeper 127.0.0.1:2181 --create --topic out-topic --partitions 3 --replication-factor 1
+kafka-topics --zookeeper 127.0.0.1:2181 --create --topic out-topic --partitions 3 --replication-factor 1
 
+kafka-topics --zookeeper 127.0.0.1:2181 --create --topic twitter --partitions 3 --replication-factor 1
 #run stream application
