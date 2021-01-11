@@ -11,7 +11,7 @@
     <modules>
         <module>stream_application</module>
         <module>twitter_application</module>
-        <module>ElasticSearchSinkConsumer</module>
+        <module>Sink_ElasticSearch_consumer</module>
     </modules>
 
     <properties>
@@ -20,6 +20,8 @@
         <slf4j.version>1.7.30</slf4j.version>
 <!--        for twitter_application-->
         <kafka-clients.version>2.7.0</kafka-clients.version>
+<!--        for Sink_elastic_database-->
+        <elasticsearch-rest-high-level-client.version>7.2.0</elasticsearch-rest-high-level-client.version>
     </properties>
     <dependencies>
 

@@ -1,5 +1,11 @@
 # testing
-
+# description about the application
+-the application take data( JSon data) from twitter user who tweet about trump then sink into new elasticsearch database
+-source: twitter
+-sink: elasticsearch
+-data go to kafka stream using kafka-stream-api ,  make some new nodes and filter some wanted information and finally 
+save it into elasticSearch database
+ 
 #how to run an application 
 
 #run command from home directory:

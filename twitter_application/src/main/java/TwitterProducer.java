@@ -32,8 +32,7 @@ public class TwitterProducer {
     public TwitterProducer(){}
     public void run() {
         logger.info("set up...");
-        /** Set up your blocking queues: Be sure to size these properly based on expected TPS of your stream */
-        BlockingQueue<String> msgQueue = new LinkedBlockingQueue<String>(1000);
+        BlockingQueue<String> msgQueue = new LinkedBlockingQueue<>(1000);
         Client client = createTwitterClient(msgQueue);
         // create twitter client
         client.connect();
@@ -58,7 +57,7 @@ public class TwitterProducer {
             }
             if (msg != null) {
                 logger.info(msg);
-                kafkaProducer.send(new ProducerRecord<String,String>( "src-topic", null, msg),new Callback(){
+                kafkaProducer.send(new ProducerRecord<>( "src-topic", null, msg),new Callback(){
                     @Override
                     public void onCompletion(RecordMetadata recordMetadata, Exception e) {
                         if(e!=null){
@@ -74,7 +73,7 @@ public class TwitterProducer {
     public Client createTwitterClient(BlockingQueue<String> msgQueue){
 
 
-        /** Declare the host you want to connect to, the endpoint, and authentication (basic auth or oauth) */
+        // Declare the host you want to connect to, the endpoint, and authentication (basic auth or oauth)
         Hosts hosebirdHosts = new HttpHosts(Constants.STREAM_HOST);
         StatusesFilterEndpoint hosebirdEndpoint = new StatusesFilterEndpoint();
         // Optional: set up some followings and track terms
@@ -92,14 +91,12 @@ public class TwitterProducer {
                 .processor(new StringDelimitedProcessor(msgQueue));
 
 
-        Client hosebirdClient = builder.build();
-        return hosebirdClient;
+        return builder.build();
 // Attempts to establish a connection.
 
     }
 
     public KafkaProducer<String, String> createKafkaProducer(){
-        final Logger logger = LoggerFactory.getLogger(TwitterProducer.class);
         String bootStrapServer = "127.0.0.1:9092";
         // create producer properties
         Properties properties = new Properties();
@@ -121,12 +118,8 @@ public class TwitterProducer {
         properties.setProperty(ProducerConfig.LINGER_MS_CONFIG,"20"); // delay to wait to send message as a batch 20ms
         properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(32 * 1024)); //32KB per batch. send message as a batch to broker-> consumer
 
-
-
         //create producer
-        KafkaProducer<String,String> kafkaProducer = new KafkaProducer<String,String>(properties);
-
-        return kafkaProducer;
+        return new KafkaProducer<>(properties);
     }
 
     public static void main(String[] args) {
